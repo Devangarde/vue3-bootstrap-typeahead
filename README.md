@@ -139,9 +139,9 @@ You can use the mouse instead, simply hover you cursor over the desire element a
 | [`onFocus`](#onFocus)       | `function (event: Object { input: String, items: Array }): void` | Emitted when the input control get the focus                                                        |
 | [`onBlur`](#onBlur)         | `function (event: Object { input: String, items: Array }): void` | Emitted when the input control lost the focus [When the user select an item, the focus is lost too] |
 
-### Slots
+### Slot
 
-| Slot             | Parent                                    | Description                                         |
+| Slot             | Props                                     | Description                                         |
 | :--------------- | :---------------------------------------- | :-------------------------------------------------- |
 | [`#item`](#item) | `item`, `itemProjection`, `boldMatchText` | Slot to customize the content of the `<li>` element |
 
@@ -152,3 +152,7 @@ You can use the mouse instead, simply hover you cursor over the desire element a
 | [`item`](#item)                     | String or Object | The item of the items array                                                                  |
 | [`itemProjection`](#itemProjection) | function         | Use the item projection function provided as prop to the component                           |
 | [`boldMatchText`](#boldMatchText)   | function         | Receives a string and add `<strong>' to the parts of the text matched by the search criteria |
+
+## Example/demo
+
+Clone the repository and download the dependencies with `npm install` then run the demo with `npm run serve`.
