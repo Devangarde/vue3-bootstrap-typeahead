@@ -2,10 +2,10 @@
 	<div ref="wrapper" :class="this.dropdownClass">
 		<input
 			ref="input"
-			:class="this.inputClass"
 			type="text"
+			:class="this.inputClass"
 			:placeholder="placeholder"
-			v-model="this.value"
+			:value="this.value"
 			@focus="onFocus"
 			@blur="onBlur"
 			@keydown.down.prevent="onArrowDown"
@@ -13,7 +13,8 @@
 			@keydown.enter.prevent="selectCurrentSelection"
 			@keydown.tab="selectCurrentSelection"
 			@keydown.esc.prevent="close"
-			@keyup="filterItems"
+			@keypress="buffer = $event.target.value"
+			@input="buffer = $event.target.value"
 			autocomplete="off"
 		/>
 		<ul :style="isListVisible ? 'display:block' : ''" :class="this.dropdownMenuClass">
@@ -217,25 +218,26 @@ export default {
 	},
 	computed: {
 		isListVisible() {
-			return this.isInputFocused && (this.value || '').length >= this.minInputLength && this.filteredItems.length;
+			return this.isInputFocused && (this.buffer || '').length >= this.minInputLength && this.filteredItems.length;
 		},
 		currentSelection() {
 			return this.isListVisible && this.currentSelectionIndex < this.filteredItems.length ? this.filteredItems[this.currentSelectionIndex] : undefined;
 		},
-		value: {
-			get() {
-				if (this.isInputFocused) {
-					return this.buffer;
-				} else {
-					return this.itemProjection(this.modelValue);
-				}
-			},
-			set(newvalue) {
-				if (this.isListVisible && this.currentSelectionIndex >= this.filteredItems.length) {
-					this.currentSelectionIndex = (this.filteredItems.length || 1) - 1;
-				}
-				this.buffer = newvalue;
+		value() {
+			if (this.isInputFocused) {
+				return this.buffer;
+			} else {
+				return this.itemProjection(this.modelValue);
 			}
+		}
+	},
+	watch: {
+		buffer(newvalue) {
+			if (this.isListVisible && this.currentSelectionIndex >= this.filteredItems.length) {
+				this.currentSelectionIndex = (this.filteredItems.length || 1) - 1;
+			}
+			this.buffer = newvalue;
+			this.filterItems();
 		}
 	}
 };
