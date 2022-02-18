@@ -6,6 +6,7 @@
 			:class="this.inputClass"
 			:placeholder="placeholder"
 			:value="this.value"
+			:disabled="this.disabled"
 			@focus="onFocus"
 			@blur="onBlur"
 			@keydown.down.prevent="onArrowDown"
@@ -71,6 +72,10 @@ export default {
 			validator: prop => { return prop != 0 }
 		},
 		allowNew: {
+			type: Boolean,
+			default: false
+		},
+		disabled: {
 			type: Boolean,
 			default: false
 		},

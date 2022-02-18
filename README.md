@@ -108,14 +108,15 @@ You can use the mouse instead, simply hover you cursor over the desire element a
 
 | Prop                                              | Type              | Default                    | Description                                                                             |
 | :------------------------------------------------ | :---------------- | :------------------------- | :------------------------------------------------------------------- |
-| [`placeholder`](#placeholder)                     | String            |                            | Placeholder text for the input                          |
-| [`items`](#items)                                 | Array or function(query): Promise (Required)  |           | Array of objects or strings with the elements for suggestions, or function returning a Promise |
-| [`v-model`](#v-model)                             | Vue data variable |        | Vue data binding. For special needs `modelValue` property and `update:modelValue` event can be used as well |
-| [`minInputLength`](#minInputLength)               | Number            | `2`                        | Minimum input length for the suggestion length to appear, the prop value has to be >= 0 |
-| [`maxItems`](#maxItems)                           | Number            | `-1`                       | Maximum items to show, the prop value has to be != 0 (`-1` means _show all_)            |
-| [`allowNew`](#allowNew)               | Boolean  | `false` | When `true` values not present in `items` are kept, when `false` are discarded |
-| [`requestDelay`](#requestDelay)               | Number  | `250` | Used in conjuction with item function, delays the function call after a keystroke (time in milliseconds). Safe to set to `0` when the item function is not fetching data remotely |
+| [`allowNew`](#allowNew)         | Boolean  | `false` | When `true` values not present in `items` are kept, when `false` are discarded |
+| [`disabled`](#disabled)         | Boolean  | `false` | Disable input element when `true` |
 | [`itemProjection`](#itemProjection)               | Function: String  | `(item) => {return item;}` | Projection function to map the items to a string value for search and display  |
+| [`items`](#items)                                 | Array or function(query): Promise (Required)  |           | Array of objects or strings with the elements for suggestions, or function returning a Promise |
+| [`maxItems`](#maxItems)                           | Number            | `-1`                       | Maximum items to show, the prop value has to be != 0 (`-1` means _show all_)            |
+| [`minInputLength`](#minInputLength)               | Number            | `2`                        | Minimum input length for the suggestion length to appear, the prop value has to be >= 0 |
+| [`placeholder`](#placeholder)                     | String            |                            | Placeholder text for the input                          |
+| [`requestDelay`](#requestDelay) | Number  | `250` | Used in conjuction with item function, delays the function call after a keystroke (time in milliseconds). Safe to set to `0` when the item function is not fetching data remotely |
+| [`v-model`](#v-model)                             | Vue data variable |        | Vue data binding. For special needs `modelValue` property and `update:modelValue` event can be used as well |
 | [`inputClass`](#inputClass)                       | String            | `form-control`             | `<input>` element class      |
 | [`dropdownClass`](#dropdownClass)                 | String            | `dropdown`                 | Outer element class         |
 | [`dropdownMenuClass`](#dropdownMenuClass)         | String            | `dropdown-menu`            | List class    |
@@ -128,10 +129,10 @@ You can use the mouse instead, simply hover you cursor over the desire element a
 | :-------------------------- | :--------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------- |
 | [`onFocus`](#onFocus)       | `function (event: Object { input: String, items: Array }): void` | Emitted when the input control get the focus                                                        |
 | [`onBlur`](#onBlur)         | `function (event: Object { input: String, items: Array }): void` | Emitted when the input control lost the focus [When the user select an item, the focus is lost too] |
-| [`request:queued`](#request:queued)         | `function (query, timeoutID): void` | Emitted when the items function is queued |
-| [`request:fired`](#request:fired)         | `function (query): void` | Emitted when the items function is fired |
-| [`request:completed`](#request:completed)         | `function (query): void` | Emitted when the items function Promise is resolved |
-| [`request:canceled`](#request:canceled)         | `function (timeoutID): void` | Emitted when the queued items function is canceled due to a keystroke pressed during the [requestDelay](#requestDelay) time |
+| [`request:queued`](#request-queued)         | `function (query, timeoutID): void` | Emitted when the items function is queued |
+| [`request:fired`](#request-fired)         | `function (query): void` | Emitted when the items function is fired |
+| [`request:completed`](#request-completed)         | `function (query): void` | Emitted when the items function Promise is resolved |
+| [`request:canceled`](#request-canceled)         | `function (timeoutID): void` | Emitted when the queued items function is canceled due to a keystroke pressed during the [requestDelay](#requestDelay) time |
 
 ### Slot
 
