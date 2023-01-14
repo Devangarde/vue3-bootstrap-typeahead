@@ -1,13 +1,13 @@
 {
   "name": "vue3-bootstrap-typeahead",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "vue": "^3.0.0"
+    "vue": "^3.2.45"
   },
   "devDependencies": {
     "@vue/cli-service": "~4.5.0",

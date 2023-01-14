@@ -1,9 +1,11 @@
 # Vue.js 3 Bootstrap 4.x / 5.x Typeahead
 
-Fork of [vue3-simple-typeahead](https://github.com/frikinside/vue3-simple-typeahead) (thanks man 👍🏻).
+Born as a fork of [vue3-simple-typeahead](https://github.com/frikinside/vue3-simple-typeahead) (thanks man 👍🏻), later rebuilt with composition API.
 
-Tested with Bootstrap 4.6.1 and 5.1.3.  
-Works just fine with the only Boostrap **CSS**.
+Tested with Bootstrap from version 4.6.1 to 5.3.0.  
+Works fine with the only Boostrap **CSS**, no Bootstrap JS library required.
+
+This component is distributed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
 ## Features
 
@@ -133,6 +135,7 @@ You can use the mouse instead, simply hover you cursor over the desire element a
 | [`request:fired`](#request-fired)         | `function (query): void` | Emitted when the items function is fired |
 | [`request:completed`](#request-completed)         | `function (query): void` | Emitted when the items function Promise is resolved |
 | [`request:canceled`](#request-canceled)         | `function (timeoutID): void` | Emitted when the queued items function is canceled due to a keystroke pressed during the [requestDelay](#requestDelay) time |
+| [`request:failed`](#request-failed)         | `function (Exception): void` | Emitted when the items function promise fails |
 
 ### Slot
 
@@ -150,4 +153,4 @@ You can use the mouse instead, simply hover you cursor over the desire element a
 
 ## Get started
 
-Clone the repository and download the dependencies with `npm install` then run the demo with `npm run serve`.
+Clone the repository and download the dependencies with `npm install` then run the project with `npm run serve`.

@@ -1,7 +1,10 @@
 <template>
-	<div class="container py-4">
-		<h1 class="">vue3-bootstrap-typeahead</h1>
-		<div class="mb-4">Visit <a href="https://github.com/Devangarde/vue3-bootstrap-typeahead"><code>vue3-bootstrap-typeahead</code> on GitHub</a> for documentation</div>
+	<div class="container">
+		<h1 class="mt-4 mb-3">{{ title }}</h1>
+		<div class="mb-4">
+			Visit <a href="https://github.com/Devangarde/vue3-bootstrap-typeahead"><code>vue3-bootstrap-typeahead</code> on GitHub</a> to download sources and get the documentation.<br>
+			What follow are some examples of the component in action in most common configurations.
+		</div>
 
 		<div class="card mb-4 shadow-sm">
 			<div class="card-header text-uppercase bg-white border-0 fw-bold">USA States</div>
@@ -13,8 +16,7 @@
 				/>
 			</div>
 			<div class="card-footer border-0 opacity-75 bg-white">
-				<span class="badge rounded-pill bg-primary me-2">items array</span>
-				<span class="badge rounded-pill bg-primary me-2">maxItems</span>
+				<BadgePill v-for="(text, index) in [ 'items array', 'maxItems' ]" :key="index" :text="text" />
 			</div>
 		</div>
 
@@ -24,7 +26,8 @@
 				<Typeahead
 					v-model="color"
 					:allowNew="true"
-					:items="['Black','Blue','Brown','Cyan','Gray','Green','Lime','Magenta','Orange','Red','Yellow']"
+					:items="['Aqua','Black','Blue','Cyan','Fuchsia','Gray','Green','Lime','Magenta','Maroon','Navy','Olive','Orange','Purple','Red','Silver','Teal','Yellow']"
+					:minInputLength="1"
 					dropdownItemClass="dropdown-item d-flex align-items-center">
 					<template #item="slot">
 						<div class="me-2" :style="{
@@ -38,10 +41,7 @@
 				</Typeahead>
 			</div>
 			<div class="card-footer border-0 opacity-75 bg-white">
-				<span class="badge rounded-pill bg-primary me-2">allowNew</span>
-				<span class="badge rounded-pill bg-primary me-2">items array</span>
-				<span class="badge rounded-pill bg-primary me-2">dropdownItemClass</span>
-				<span class="badge rounded-pill bg-success me-2">slot</span>
+				<BadgePill v-for="(text, index) in [ 'allowNew', 'items array', 'dropdownItemClass', 'minInputLength', 'slot' ]" :key="index" :text="text" />
 			</div>
 		</div>
 
@@ -69,15 +69,12 @@
 				</div>
 			</div>
 			<div class="card-footer border-0 opacity-75 bg-white">
-				<span class="badge rounded-pill bg-primary me-2">items function</span>
-				<span class="badge rounded-pill bg-primary me-2">minInputLength</span>
-				<span class="badge rounded-pill bg-primary me-2">requestDelay</span>
-				<span class="badge rounded-pill bg-info me-2">@update:modelValue</span>
+				<BadgePill v-for="(text, index) in [ 'items function', 'minInputLength', 'requestDelay', '@update:modelValue' ]" :key="index" :text="text" />
 			</div>
 		</div>
 
 		<div class="card mb-4 shadow-sm">
-			<div class="card-header text-uppercase bg-white border-0 fw-bold">TV Shows<span class="badge rounded-pill bg-danger ms-2">REST</span></div>
+			<div class="card-header text-uppercase bg-white border-0 fw-bold">TV Shows<BadgePill text="REST" /></div>
 			<div class="card-body py-2">
 				<Typeahead
 					placeholder="Search the TVmaze database..."
@@ -90,15 +87,12 @@
 					:items="shows"/>
 			</div>
 			<div class="card-footer border-0 opacity-75 bg-white">
-				<span class="badge rounded-pill bg-primary me-2">inputClass</span>
-				<span class="badge rounded-pill bg-primary me-2">items function</span>
-				<span class="badge rounded-pill bg-primary me-2">minInputLength</span>
-				<span class="badge rounded-pill bg-primary me-2">placeholder</span>
+				<BadgePill v-for="(text, index) in [ 'inputClass', 'items function', 'minInputLength', 'placeholder' ]" :key="index" :text="text" />
 			</div>
 		</div>
 
 		<div class="card mb-4 shadow-sm">
-			<div class="card-header text-uppercase bg-white border-0 fw-bold">World Countries<span class="badge rounded-pill bg-danger ms-2">REST</span></div>
+			<div class="card-header text-uppercase bg-white border-0 fw-bold">World Countries<BadgePill text="REST" /></div>
 			<div class="card-body py-2">
 				<div class="d-flex position-relative align-items-center">
 					<Typeahead
@@ -131,69 +125,81 @@
 				</div>
 			</div>
 			<div class="card-footer border-0 opacity-75 bg-white">
-				<span class="badge rounded-pill bg-primary me-2">dropdownClass</span>
-				<span class="badge rounded-pill bg-primary me-2">items function</span>
-				<span class="badge rounded-pill bg-primary me-2">itemsProjection</span>
-				<span class="badge rounded-pill bg-success me-2">slot</span>
-				<span class="badge rounded-pill bg-info me-2">@request:fired</span>
-				<span class="badge rounded-pill bg-info me-2">@request:completed</span>
-				<span class="badge rounded-pill bg-info me-2">@request:canceled</span>
+				<BadgePill v-for="(text, index) in [
+					'dropdownClass', 'items function', 'itemsProjection', 'slot', '@request:fired', '@request:completed', '@request:canceled'
+				]" :key="index" :text="text" />
 			</div>
 		</div>
 		
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'App',
-	data() {
-		return {
-			states: [ "Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming" ],
-			state: "Alabama",
-			color: null,
-			planets: [],
-			show: null,
-			country: null,
-			spinner: false
-		}
-	},
-	methods: {
-		planetItems() {
-			const app = this;
-			// exclude planets already loaded
-			return Promise.resolve(['Mercury','Venus','Earth','Mars','Jupiter','Saturn','Uranus','Neptune'].filter(planet => {
-				return !app.planets.includes(planet)
-			}));
-		},
-		shows(query) {
-			return fetch("https://api.tvmaze.com/search/shows?q=" + query).then(res => {
-				return res.json()
-			}).then(res => {
-				return res.map(entry => {
-					return entry.show.name
-				});
-			});
-		},
-		countries(query) {
-			if (!query) return;
-			return fetch("https://restcountries.com/v3.1/name/" + query).then(res => {
-				return res.json();
-			}).catch(() => {
-				return [];
-			});
-		},
-		countryProjection(country) {
-			return (country ? country.name.common : '');
-		}
-	},
-	created() {
-		let link = document.createElement("link");
-		link.setAttribute("rel", "stylesheet");
-		link.setAttribute("href", "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css");
-		link.setAttribute("integrity", "sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3");
-		link.setAttribute("crossorigin", "anonymous");
-		document.getElementsByTagName("head")[0].appendChild(link);
-	}
+<script setup>
+import { ref, onMounted } from "vue";
+import BadgePill from "./BadgePill.vue";
+
+const title = "Typeahead component for Vue.js 3 and Bootstrap 4/5";
+
+const states = [ "Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming" ];
+const state = ref(states[0]);
+
+const color = ref(null);
+
+const planets = ref([]);
+const planetItems = () => {
+	// exclude planets already loaded
+	return Promise.resolve(['Mercury','Venus','Earth','Mars','Jupiter','Saturn','Uranus','Neptune'].filter(planet => !planets.value.includes(planet) ));
 }
+
+const show = ref(null);
+const shows = (query) => {
+	return fetch("https://api.tvmaze.com/search/shows?q=" + query).then(res => res.json()).then(res => res.map(entry => entry.show.name));
+}
+
+const country = ref(null);
+const countries = (query) => {
+	if (!query) return;
+	return fetch("https://restcountries.com/v3.1/name/" + query).then(res => res.json()).catch(() => []);
+}
+const countryProjection = (country) => (country ? country.name.common : '');
+const spinner = ref(false);
+
+onMounted(() => {
+	let link = document.createElement("link");
+	link.setAttribute("rel", "stylesheet");
+	link.setAttribute("href", "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css");
+	document.getElementsByTagName("head")[0].appendChild(link);
+	document.title = title;
+});
 </script>
+
+<style>
+.italy {
+	background-color: #eee;
+	width: 0.4rem;
+	height: 0.85rem;
+	display: inline-block;
+	position: relative;
+	margin: 0.1rem 0.5rem 0 0.5rem;
+}
+.italy:before {
+	content: '';
+	background-color: #45914a;
+	width: 0.4rem;
+	display: inline-block;
+	position: absolute;
+	left: -0.4rem;
+	top: 0;
+	bottom: 0;
+}
+.italy:after {
+	content: '';
+	background-color: #b8323b;
+	width: 0.4rem;
+	display: inline-block;
+	position: absolute;
+	right: -0.4rem;
+	top: 0;
+	bottom: 0;
+}
+</style>
