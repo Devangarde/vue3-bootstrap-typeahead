@@ -1,4 +1,4 @@
-# Vue.js 3 Bootstrap 4.x / 5.x Typeahead
+# Vue.js 3 typeahead component for Bootstrap 4/5
 
 Born as a fork of [vue3-simple-typeahead](https://github.com/frikinside/vue3-simple-typeahead) (thanks man 👍🏻), later rebuilt with composition API.
 

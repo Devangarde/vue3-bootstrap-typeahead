@@ -33,7 +33,7 @@
 				<li
 					v-else
 					v-html="boldMatchText(props.itemProjection(item))"
-					:class="this.dropdownItemClass + (state.index == index ? ' ' + currentSelectionClass : '')"
+					:class="props.dropdownItemClass + (state.index == index ? ' ' + currentSelectionClass : '')"
 					@mousedown.prevent
 					@click="selectItem(item)"
 					@mouseenter="state.index = index"></li>
