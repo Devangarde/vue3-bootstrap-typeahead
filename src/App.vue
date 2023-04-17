@@ -1,8 +1,7 @@
 <template>
-	<div class="container">
-		<h1 class="mt-4 mb-3">{{ title }}</h1>
+	<main>
 		<div class="mb-4">
-			Visit <a href="https://github.com/Devangarde/vue3-bootstrap-typeahead"><code>vue3-bootstrap-typeahead</code> on GitHub</a> to download sources and get the documentation.<br>
+			Visit <a href="https://github.com/Devangarde/vue3-bootstrap-typeahead" title="Vue.js 3 typeahead component for Bootstrap on GitHub"><code>vue3-bootstrap-typeahead</code> on GitHub</a> to download sources and get the documentation.<br>
 			What follow are some examples of the component in action in most common configurations.
 		</div>
 
@@ -131,14 +130,12 @@
 			</div>
 		</div>
 		
-	</div>
+	</main>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
 import BadgePill from "./BadgePill.vue";
-
-const title = "Vue.js 3 typeahead component for Bootstrap 4/5";
 
 const states = [ "Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming" ];
 const state = ref(states[0]);
@@ -169,7 +166,6 @@ onMounted(() => {
 	link.setAttribute("rel", "stylesheet");
 	link.setAttribute("href", "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css");
 	document.getElementsByTagName("head")[0].appendChild(link);
-	document.title = title;
 });
 </script>
 
@@ -182,24 +178,20 @@ onMounted(() => {
 	position: relative;
 	margin: 0.1rem 0.5rem 0 0.5rem;
 }
-.italy:before {
-	content: '';
-	background-color: #45914a;
+.italy:before, .italy:after {
 	width: 0.4rem;
+	content: '';
 	display: inline-block;
 	position: absolute;
-	left: -0.4rem;
 	top: 0;
 	bottom: 0;
 }
+.italy:before {
+	background-color: #45914a;
+	left: -0.4rem;
+}
 .italy:after {
-	content: '';
 	background-color: #b8323b;
-	width: 0.4rem;
-	display: inline-block;
-	position: absolute;
 	right: -0.4rem;
-	top: 0;
-	bottom: 0;
 }
 </style>

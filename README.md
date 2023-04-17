@@ -9,6 +9,7 @@ This component is distributed under the [Apache License 2.0](https://www.apache.
 
 ## Features
 
+- Composition API
 - Autocomplete
 - Match highlighter
 - REST API data source

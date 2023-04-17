@@ -131,6 +131,7 @@ watch(buffer, (newvalue) => {
 
 const onFocus = () => {
 	state.hasFocus = true;
+	state.onBlurIgnoreBuffer = false;
 	buffer.value = props.itemProjection(props.modelValue);
 	if (props.minInputLength == 0) filterItems();
 	emit('onFocus', {
@@ -146,7 +147,7 @@ const onBlur = () => {
 			const match = props.items.filter((item) => props.itemProjection(item).toLowerCase() == buffer.value.toLowerCase());
 			selectItem(match.length > 0 ?
 				props.itemProjection(match[0]) :
-				props.buffer
+				buffer.value
 			);
 		} else if ((buffer.value || '').length == 0 && (props.itemProjection(props.modelValue) || '').length > 0) {
 			selectItem(null);
