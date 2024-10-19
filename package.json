@@ -1,16 +1,48 @@
 {
-  "name": "vue3-bootstrap-typeahead",
-  "version": "0.2.1",
-  "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
-  },
-  "dependencies": {
-    "vue": "^3.2.47"
-  },
-  "devDependencies": {
-    "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.2.47"
-  }
+	"name": "vue3-bootstrap-typeahead",
+	"description": "A simple and lightweight Vue3 typeahead component for Bootstrap 4.x / 5.x that show a suggested list of elements while the user types in",
+	"version": "1.0.0",
+	"type": "module",
+	"private": false,
+	"author": {
+		"name": "Massimo Nadalin",
+		"url": "https://www.devangarde.it"
+	},
+	"keywords": [
+		"vue",
+		"vuejs",
+		"typeahead",
+		"autocomplete",
+		"bootstrap"
+	],
+	"homepage": "https://github.com/Devangarde/vue3-bootstrap-typeahead",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/devangarde/vue3-bootstrap-typeahead.git"
+	},
+	"license":"Apache-2.0",
+	"scripts": {
+		"dev": "vite",
+		"build:demo": "vite build",
+		"build:package": "vite build --config vite.config.package.js",
+		"preview": "vite preview"
+	},
+	"exports": {
+		"./package.json": "./package.json",
+		".": {
+			"import": "./dist/vue3-bootstrap-typeahead.js",
+			"require": "./dist/vue3-bootstrap-typeahead.umd.js"
+		}
+	},
+	"files": [
+		"dist",
+		"src/typeahead.*"
+	],
+	"dependencies": {
+		"vue": "^3.5.5"
+	},
+	"devDependencies": {
+		"@vitejs/plugin-vue": "^5.1.3",
+		"vite": "^5.4.5"
+	}
 }

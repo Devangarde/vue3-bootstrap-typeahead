@@ -1,47 +1,3 @@
-<template>
-	<div ref="wrapperElement" :class="props.dropdownClass">
-		<input
-			ref="inputElement"
-			type="text"
-			:class="props.inputClass"
-			:placeholder="placeholder"
-			:value="currentValue"
-			:disabled="props.disabled"
-			@focus="onFocus"
-			@blur="onBlur"
-			@keydown.down.prevent="onArrowDown"
-			@keydown.up.prevent="onArrowUp"
-			@keydown.enter.prevent="selectCurrentSelection"
-			@keydown.tab="selectCurrentSelection"
-			@keydown.esc.prevent="close"
-			@keypress="buffer = $event.target.value"
-			@input="buffer = $event.target.value"
-			autocomplete="off"
-		/>
-		<ul ref="menuElement" :style="menuVisible ? 'display:block' : ''" :class="props.dropdownMenuClass">
-			<template v-for="(item, index) in filteredItems" :key="index">
-				<li
-					v-if="$slots['item']"
-					:class="props.dropdownItemClass + (state.index == index ? ' ' + currentSelectionClass : '')"
-					@mousedown.prevent
-					@click="selectItem(item)"
-					@mouseenter="state.index = index">
-					<template v-if="$slots['item']">
-						<slot name="item" :item="item" :itemProjection="props.itemProjection" :boldMatchText="boldMatchText"></slot>
-					</template>
-				</li>
-				<li
-					v-else
-					v-html="boldMatchText(props.itemProjection(item))"
-					:class="props.dropdownItemClass + (state.index == index ? ' ' + currentSelectionClass : '')"
-					@mousedown.prevent
-					@click="selectItem(item)"
-					@mouseenter="state.index = index"></li>
-			</template>
-		</ul>
-	</div>
-</template>
-
 <script setup>
 import { computed, ref, reactive, watch } from "vue";
 
@@ -79,6 +35,10 @@ const props = defineProps({
 		type: Boolean,
 		default: false
 	},
+	readonly: {
+		type: Boolean,
+		default: false
+	},
 	requestDelay: {
 		type: Number,
 		default: 250,
@@ -103,6 +63,10 @@ const props = defineProps({
 	currentSelectionClass: {
 		type: [ String, Object ],
 		default: 'active'
+	},
+	clearable: {
+		type: Boolean,
+		default: false
 	}
 });
 
@@ -117,6 +81,7 @@ const state = reactive({
 const wrapperElement = ref();
 const inputElement = ref();
 const menuElement = ref();
+const clearElement = ref();
 
 const currentValue = computed(() => state.hasFocus ? buffer.value : props.itemProjection(props.modelValue) );
 const menuVisible = computed(() => state.hasFocus && (buffer.value || '').length >= props.minInputLength && filteredItems.value.length > 0 );
@@ -130,6 +95,7 @@ watch(buffer, (newvalue) => {
 });
 
 const onFocus = () => {
+	if (props.readonly) return;
 	state.hasFocus = true;
 	state.onBlurIgnoreBuffer = false;
 	buffer.value = props.itemProjection(props.modelValue);
@@ -140,13 +106,14 @@ const onFocus = () => {
 	});
 };
 const onBlur = () => {
+	if (props.readonly) return;
 	state.hasFocus = false;
 	filteredItems.value = [];
 	if (!state.onBlurIgnoreBuffer) {
 		if (props.allowNew && (buffer.value || '').length > 0) {
-			const match = props.items.filter((item) => props.itemProjection(item).toLowerCase() == buffer.value.toLowerCase());
-			selectItem(match.length > 0 ?
-				props.itemProjection(match[0]) :
+			const match = props.items.find((item) => props.itemProjection(item).toLowerCase() == buffer.value.toLowerCase());
+			selectItem(match !== undefined ?
+				props.itemProjection(match) :
 				buffer.value
 			);
 		} else if ((buffer.value || '').length == 0 && (props.itemProjection(props.modelValue) || '').length > 0) {
@@ -183,12 +150,11 @@ const scrollSelectionIntoView = () => {
 		const menuNode = menuElement.value;
 		
 		if (activeNode.offsetTop >= menuElement.value.scrollTop && activeNode.offsetTop + activeNode.offsetHeight < menuNode.scrollTop + menuNode.offsetHeight) return;
-		const scroll_to = () => {
+		menuElement.value.scrollTo(0, () => {
 			if (activeNode.offsetTop > menuNode.scrollTop) return activeNode.offsetTop + activeNode.offsetHeight - menuNode.offsetHeight;
 			if (activeNode.offsetTop < menuNode.scrollTop) return activeNode.offsetTop;
 			return 0;
-		}
-		menuElement.value.scrollTo(0, scroll_to());
+		});
 	});
 };
 const selectCurrentSelection = (event) => {
@@ -202,6 +168,11 @@ const selectItem = (item) => {
 	close();
 	emit('update:modelValue', item);
 };
+const clear = () => {
+	inputElement.value.focus();
+	buffer.value = '';
+	inputElement.value.blur();
+}
 
 const escapeRegExp = (text) => {
 	return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -247,3 +218,52 @@ const filterItems = () => {
 	}
 };
 </script>
+
+<template>
+	<div ref="wrapperElement" :class="props.dropdownClass">
+		<input
+			ref="inputElement"
+			type="text"
+			:class="props.inputClass"
+			:placeholder="placeholder"
+			:value="currentValue"
+			:disabled="props.disabled"
+			:readonly="props.readonly"
+			:style="props.clearable ? 'padding-right: 2rem' : ''"
+			@focus="onFocus"
+			@blur="onBlur"
+			@keydown.down.prevent.stop="onArrowDown"
+			@keydown.up.prevent.stop="onArrowUp"
+			@keydown.enter.prevent.stop="selectCurrentSelection"
+			@keydown.tab.stop="selectCurrentSelection"
+			@keydown.esc.prevent.stop="close"
+			@keypress="buffer = $event.target.value"
+			@input="buffer = $event.target.value"
+			autocomplete="off"
+		/>
+		<div v-if="props.clearable" ref="clearElement" class="d-flex position-absolute top-0 bottom-0 align-items-center" style="right: 0.5rem">
+			<button type="button" class="btn-close" aria-label="Clear" @click.prevent="clear" :disabled="!currentValue" style="transform: scale(0.75)"></button>
+		</div>
+		<ul ref="menuElement" :style="menuVisible ? 'display:block' : ''" :class="props.dropdownMenuClass">
+			<template v-for="(item, index) in filteredItems" :key="index">
+				<li
+					v-if="$slots['item']"
+					:class="props.dropdownItemClass + (state.index == index ? ' ' + currentSelectionClass : '')"
+					@mousedown.prevent
+					@click="selectItem(item)"
+					@mouseenter="state.index = index">
+					<template v-if="$slots['item']">
+						<slot name="item" :item="item" :itemProjection="props.itemProjection" :boldMatchText="boldMatchText"></slot>
+					</template>
+				</li>
+				<li
+					v-else
+					v-html="boldMatchText(props.itemProjection(item))"
+					:class="props.dropdownItemClass + (state.index == index ? ' ' + currentSelectionClass : '')"
+					@mousedown.prevent
+					@click="selectItem(item)"
+					@mouseenter="state.index = index"></li>
+			</template>
+		</ul>
+	</div>
+</template>

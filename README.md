@@ -21,30 +21,26 @@ This component is distributed under the [Apache License 2.0](https://www.apache.
 
 ## Add component to your app
 
-Global registration:
+Install the package:
+
+`npm install -D vue3-bootstrap-typeahead`
+
+Then import it in your components or views:
 
 ```javascript
-...
-import Typeahead from "@/components/Typeahead.vue";
-
-let app = createApp(App);
-app.component('Typeahead', Typeahead);
-...
-app.mount('#app');
+import TypeAhead from "vue3-bootstrap-typeahead";
 ```
 
-Local registration:
+You can also import it globally:
 
 ```javascript
-import Typeahead from "@/components/Typeahead.vue";
+...
+import TypeAhead from "vue3-bootstrap-typeahead";
 
-export default {
-	components: {
-		...
-		Typeahead
-	}
-	...
-}
+let app = createApp(App);
+app.component('TypeAhead', TypeAhead);
+...
+app.mount('#app');
 ```
 
 ## Demo
@@ -55,7 +51,7 @@ Please vist [demo page](https://www.devangarde.it/vue3-bootstrap-typeahead/) to 
 ### Basic example
 
 ```xml
-<Typeahead
+<TypeAhead
 	:items="['Black','Blue','Brown','Cyan','Gray','Green','Lime','Magenta','Orange','Red','Yellow']"
 	v-model="color"
 />
@@ -65,7 +61,7 @@ Please vist [demo page](https://www.devangarde.it/vue3-bootstrap-typeahead/) to 
 
 ```xml
 <template>
-	<Typeahead
+	<TypeAhead
 		:items="countries"
 		v-model="country"
 		@request:fired="loading = true"
@@ -112,12 +108,14 @@ You can use the mouse instead, simply hover you cursor over the desire element a
 | Prop                                              | Type              | Default                    | Description                                                                             |
 | :------------------------------------------------ | :---------------- | :------------------------- | :------------------------------------------------------------------- |
 | [`allowNew`](#allowNew)         | Boolean  | `false` | When `true` values not present in `items` are kept, when `false` are discarded |
-| [`disabled`](#disabled)         | Boolean  | `false` | Disable input element when `true` |
+| [`clearable`](#clearable)       | Boolean  | `false` | Show the times icon on the right corner of the element to clear its content |
+| [`disabled`](#disabled)         | Boolean  | `false` | Makes the element `disabled` |
 | [`itemProjection`](#itemProjection)               | Function: String  | `(item) => {return item;}` | Projection function to map the items to a string value for search and display  |
 | [`items`](#items)                                 | Array or function(query): Promise (Required)  |           | Array of objects or strings with the elements for suggestions, or function returning a Promise |
 | [`maxItems`](#maxItems)                           | Number            | `-1`                       | Maximum items to show, the prop value has to be != 0 (`-1` means _show all_)            |
 | [`minInputLength`](#minInputLength)               | Number            | `2`                        | Minimum input length for the suggestion length to appear, the prop value has to be >= 0 |
 | [`placeholder`](#placeholder)                     | String            |                            | Placeholder text for the input                          |
+| [`readonly`](#readonly)         | Boolean  | `false` | Makes the element `readonly` |
 | [`requestDelay`](#requestDelay) | Number  | `250` | Used in conjuction with item function, delays the function call after a keystroke (time in milliseconds). Safe to set to `0` when the item function is not fetching data remotely |
 | [`v-model`](#v-model)                             | Vue data variable |        | Vue data binding. For special needs `modelValue` property and `update:modelValue` event can be used as well |
 | [`inputClass`](#inputClass)                       | String            | `form-control`             | `<input>` element class      |
@@ -151,7 +149,3 @@ You can use the mouse instead, simply hover you cursor over the desire element a
 | [`item`](#item)                     | String or Object | The item of the items array                                                                  |
 | [`itemProjection`](#itemProjection) | function         | Use the item projection function provided as prop to the component                           |
 | [`boldMatchText`](#boldMatchText)   | function         | Receives a string and add `<strong>` to the parts of the text matched by the search criteria |
-
-## Get started
-
-Clone the repository and download the dependencies with `npm install` then run the project with `npm run serve`.
