@@ -111,7 +111,7 @@ const onBlur = () => {
 	filteredItems.value = [];
 	if (!state.onBlurIgnoreBuffer) {
 		if (props.allowNew && (buffer.value || '').length > 0) {
-			const match = props.items.find((item) => props.itemProjection(item).toLowerCase() == buffer.value.toLowerCase());
+			const match = filteredItems.value.find((item) => props.itemProjection(item).toLowerCase() == buffer.value.toLowerCase());
 			selectItem(match !== undefined ?
 				props.itemProjection(match) :
 				buffer.value
