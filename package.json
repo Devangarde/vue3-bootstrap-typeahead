@@ -1,7 +1,7 @@
 {
 	"name": "vue3-bootstrap-typeahead",
 	"description": "A simple and lightweight Vue3 typeahead component for Bootstrap 4.x / 5.x that show a suggested list of elements while the user types in",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"type": "module",
 	"private": false,
 	"author": {

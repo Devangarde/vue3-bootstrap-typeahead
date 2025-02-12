@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref, reactive, watch } from "vue";
 
-const emit = defineEmits([ 'update:modelValue', 'onFocus', 'onBlur', 'request:queued', 'request:fired', 'request:completed', 'request:canceled' ]);
+const emit = defineEmits([ 'update:modelValue', 'onFocus', 'onBlur', 'request:queued', 'request:fired', 'request:completed', 'request:canceled', 'request:failed' ]);
 const props = defineProps({
 	modelValue: [String, Object],
 	placeholder: {
