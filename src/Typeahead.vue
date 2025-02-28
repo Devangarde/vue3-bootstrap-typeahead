@@ -69,6 +69,10 @@ const props = defineProps({
 	clearable: {
 		type: Boolean,
 		default: false
+	},
+	immediate: {
+		type: Boolean,
+		default: false
 	}
 });
 
@@ -94,6 +98,7 @@ watch(buffer, (newValue, oldValue) => {
 	if (DEBUG) console.log('watch buffer from: ' + (oldValue === null ? 'NULL' : oldValue) + ' to: ' + (newValue === null ? 'NULL' : newValue) + ' state.hasFocus: ' + state.hasFocus);
 	state.index = -1;
 	buffer.value = newValue;
+	if (props.allowNew && props.immediate && !state.onBlurIgnoreBuffer) emit('update:modelValue', buffer.value);
 	if (state.hasFocus) filterItems();
 });
 
@@ -117,6 +122,7 @@ const onBlur = () => {
 	if (!state.onBlurIgnoreBuffer) {
 		if (props.allowNew && (buffer.value || '').length > 0) {
 			const match = filteredItems.value.find((item) => props.itemProjection(item).toLowerCase() == buffer.value.toLowerCase());
+			if (DEBUG) console.log({ selectingMatch: match, buffer: buffer.value });
 			selectItem(match !== undefined ?
 				props.itemProjection(match) :
 				buffer.value
@@ -143,7 +149,8 @@ const onArrowUp = () => {
 };
 const close = (event) => {
 	if (DEBUG) console.log('close');
-	if (event instanceof KeyboardEvent && event.code === 'Escape') {
+	if (!state.onBlurIgnoreBuffer && event instanceof KeyboardEvent && event.code === 'Escape') {
+		if (DEBUG) console.log('close ignore buffer');
 		buffer.value = props.modelValue;
 		state.onBlurIgnoreBuffer = true;
 	}
@@ -195,6 +202,7 @@ const filteredItems = ref([]);
 const filterItems = () => {
 	if (DEBUG) console.log('filterItems');
 
+	filteredItems.value = [];
 	if ((currentValue.value || '').length < props.minInputLength) return;
 	
 	const loadItems = (items) => { filteredItems.value = (props.maxItems < 0 ? items : items.slice(0, props.maxItems)); }
@@ -205,7 +213,6 @@ const filterItems = () => {
 			props.items
 		);
 	} else if (typeof props.items === 'function') {
-		filteredItems.value = [];
 		if (state.requestTimeout !== null) {
 			emit("request:canceled", state.requestTimeout);
 			clearTimeout(state.requestTimeout);

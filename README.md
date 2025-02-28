@@ -111,6 +111,7 @@ You can use the mouse instead, simply hover you cursor over the desire element a
 | [`clearable`](#clearable)       | Boolean  | `false` | Show the times icon on the right corner of the element to clear its content |
 | [`disabled`](#disabled)         | Boolean  | `false` | Makes the element `disabled` |
 | [`itemProjection`](#itemProjection)               | Function: String  | `(item) => {return item;}` | Projection function to map the items to a string value for search and display  |
+| [`immediate`](#immediate)         | Boolean  | `false` | Together with `allowNew` enabled, updates the `modelValue` on each keystroke |
 | [`items`](#items)                                 | Array or function(query): Promise (Required)  |           | Array of objects or strings with the elements for suggestions, or function returning a Promise |
 | [`maxItems`](#maxItems)                           | Number            | `-1`                       | Maximum items to show, the prop value has to be != 0 (`-1` means _show all_)            |
 | [`minInputLength`](#minInputLength)               | Number            | `2`                        | Minimum input length for the suggestion length to appear, the prop value has to be >= 0 |
