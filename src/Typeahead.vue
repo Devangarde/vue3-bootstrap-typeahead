@@ -98,7 +98,7 @@ watch(buffer, (newValue, oldValue) => {
 	if (DEBUG) console.log('watch buffer from: ' + (oldValue === null ? 'NULL' : oldValue) + ' to: ' + (newValue === null ? 'NULL' : newValue) + ' state.hasFocus: ' + state.hasFocus);
 	state.index = -1;
 	buffer.value = newValue;
-	if (props.allowNew && props.immediate && !state.onBlurIgnoreBuffer) emit('update:modelValue', buffer.value);
+	if (state.hasFocus && props.allowNew && props.immediate) emit('update:modelValue', buffer.value);
 	if (state.hasFocus) filterItems();
 });
 
@@ -130,10 +130,11 @@ const onBlur = () => {
 		} else if ((buffer.value || '').length == 0 && (props.itemProjection(props.modelValue) || '').length > 0) {
 			selectItem(null);
 		}
+		buffer.value = null;
 	} else {
+		buffer.value = null;
 		state.onBlurIgnoreBuffer = false;
 	}
-	buffer.value = null;
 	emit('onBlur', {
 		value: props.modelValue,
 		items: filteredItems.value
