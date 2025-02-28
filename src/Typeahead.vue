@@ -1,6 +1,8 @@
 <script setup>
 import { computed, ref, reactive, watch } from "vue";
 
+const DEBUG = false;
+
 const emit = defineEmits([ 'update:modelValue', 'onFocus', 'onBlur', 'request:queued', 'request:fired', 'request:completed', 'request:canceled', 'request:failed' ]);
 const props = defineProps({
 	modelValue: [String, Object],
@@ -88,13 +90,15 @@ const menuVisible = computed(() => state.hasFocus && (buffer.value || '').length
 const currentSelection = computed(() => menuVisible && state.index != -1 && state.index < filteredItems.value.length ? filteredItems.value[state.index] : undefined );
 
 const buffer = ref(null);
-watch(buffer, (newvalue) => {
+watch(buffer, (newValue, oldValue) => {
+	if (DEBUG) console.log('watch buffer from: ' + (oldValue === null ? 'NULL' : oldValue) + ' to: ' + (newValue === null ? 'NULL' : newValue) + ' state.hasFocus: ' + state.hasFocus);
 	state.index = -1;
-	buffer.value = newvalue;
-	filterItems();
+	buffer.value = newValue;
+	if (state.hasFocus) filterItems();
 });
 
 const onFocus = () => {
+	if (DEBUG) console.log('onFocus');
 	if (props.readonly) return;
 	state.hasFocus = true;
 	state.onBlurIgnoreBuffer = false;
@@ -106,6 +110,7 @@ const onFocus = () => {
 	});
 };
 const onBlur = () => {
+	if (DEBUG) console.log('onBlur');
 	if (props.readonly) return;
 	state.hasFocus = false;
 	filteredItems.value = [];
@@ -137,6 +142,7 @@ const onArrowUp = () => {
 	scrollSelectionIntoView();
 };
 const close = (event) => {
+	if (DEBUG) console.log('close');
 	if (event instanceof KeyboardEvent && event.code === 'Escape') {
 		buffer.value = props.modelValue;
 		state.onBlurIgnoreBuffer = true;
@@ -163,12 +169,14 @@ const selectCurrentSelection = (event) => {
 	if (currentSelection.value) selectItem(currentSelection.value);
 };
 const selectItem = (item) => {
+	if (DEBUG) console.log('selectItem');
 	state.index = -1;
 	state.onBlurIgnoreBuffer = true;
 	close();
 	emit('update:modelValue', item);
 };
 const clear = () => {
+	if (DEBUG) console.log('clear');
 	inputElement.value.focus();
 	buffer.value = '';
 	inputElement.value.blur();
@@ -185,6 +193,8 @@ const boldMatchText = (text) => {
 
 const filteredItems = ref([]);
 const filterItems = () => {
+	if (DEBUG) console.log('filterItems');
+
 	if ((currentValue.value || '').length < props.minInputLength) return;
 	
 	const loadItems = (items) => { filteredItems.value = (props.maxItems < 0 ? items : items.slice(0, props.maxItems)); }
@@ -195,6 +205,7 @@ const filterItems = () => {
 			props.items
 		);
 	} else if (typeof props.items === 'function') {
+		filteredItems.value = [];
 		if (state.requestTimeout !== null) {
 			emit("request:canceled", state.requestTimeout);
 			clearTimeout(state.requestTimeout);

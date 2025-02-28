@@ -1,7 +1,7 @@
 {
 	"name": "vue3-bootstrap-typeahead",
 	"description": "A simple and lightweight Vue3 typeahead component for Bootstrap 4.x / 5.x that show a suggested list of elements while the user types in",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"type": "module",
 	"private": false,
 	"author": {
@@ -15,7 +15,7 @@
 		"autocomplete",
 		"bootstrap"
 	],
-	"homepage": "https://github.com/Devangarde/vue3-bootstrap-typeahead",
+	"homepage": "https://www.devangarde.it/vue3-bootstrap-typeahead/",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/devangarde/vue3-bootstrap-typeahead.git"
